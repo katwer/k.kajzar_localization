@@ -1,0 +1,79 @@
+<?php
+// TODO css
+$title = 'Localizations';
+$this->headTitle($title);
+?>
+<!-- link to reset searching -->
+<?php if(isset($searchResult) && $searchResult): ?>
+ <p>
+    <a href="<?= $this->url('localization', array('action' => 'index')); ?>">Back to all localizations.</a>
+</p>
+<?php endif; ?>
+
+<!-- title -->
+<h1><?= $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('localization', array('action' => 'add')); ?>">Add new localization</a>
+</p>
+
+<!-- search form -->
+Search localization near (max. 2 km) your address: 
+ <?php
+
+ $searchFrom->setAttribute('action', $this->url('localization', array('action' => 'search')));
+
+ $searchFrom->prepare();
+
+ echo $this->form()->openTag($searchFrom);
+ echo $this->formRow($searchFrom->get('address'));
+ echo $this->formSubmit($searchFrom->get('submit')).'<br /><br />';
+ echo $this->form()->closeTag();
+
+?>
+<!-- flash messager -->
+<?= $this->flashMessenger()->renderCurrent('error', array('alert', 'alert-danger')); ?>
+<?= $this->flashMessenger()->renderCurrent('success', array('alert', 'alert-success')); ?>
+<?= $this->flashMessenger()->renderCurrent('default', array('alert', 'alert-info')); ?>
+<?php $this->flashMessenger()->clearCurrentMessages('error');
+$this->flashMessenger()->clearCurrentMessages('success');
+$this->flashMessenger()->clearCurrentMessages('default'); ?>
+
+
+<!-- table of localizations -->
+<?php if(count($this->paginator)) {$this->localizations = $this->paginator;} ?>
+
+<?php if(count($this->localizations)): ?>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php foreach ($this->localizations as $localization) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($localization->name); ?></td>
+            <td><?php echo $this->escapeHtml($localization->address); ?></td>
+            <td>
+                <a href="<?php echo $this->url('localization', array('action' => 'view', 'id' => $localization->id));
+        ?>">View</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+<?php else: ?>
+No localizations found. 
+<?php endif; ?>
+
+<?php if(count($this->paginator)): ?>
+<?php
+ echo $this->paginationControl(
+     $this->paginator,
+     'sliding',
+     'partial/paginator.phtml',
+     array(
+         'route' => 'localization'
+     )
+ );
+ ?>
+<?php endif; ?>
+

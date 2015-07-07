@@ -1,0 +1,23 @@
+<?php
+/*
+ * @author: Katarzyna Kajzar <k.kajzar@gmail.com>
+ * created 2015-07-01
+ */
+
+$title = 'Add comment';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+$form->setAttribute('action', $this->url('comment', array('action' => 'add')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get('id')) . '<br />';
+echo $this->formRow($form->get('localization_id')) . '<br />';
+echo $this->formRow($form->get('text')) . '<br />';
+echo $this->formRow($form->get('email')) . '<br />';
+echo $this->formSubmit($form->get('submit')) . '<br />';
+echo $this->form()->closeTag();
+?>

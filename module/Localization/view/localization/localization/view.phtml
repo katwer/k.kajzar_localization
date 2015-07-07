@@ -1,0 +1,63 @@
+<?php 
+/*
+ * @author: Katarzyna Kajzar <k.kajzar@gmail.com>
+ * created 2015-07-01
+ */
+
+// TODO add CSS
+?>
+
+<!-- flash messager -->
+<?= $this->flashMessenger()->renderCurrent('error', array('alert', 'alert-danger')); ?>
+<?= $this->flashMessenger()->renderCurrent('success', array('alert', 'alert-success')); ?>
+<?= $this->flashMessenger()->renderCurrent('default', array('alert', 'alert-info')); ?>
+<?php $this->flashMessenger()->clearCurrentMessages('error');
+$this->flashMessenger()->clearCurrentMessages('success');
+$this->flashMessenger()->clearCurrentMessages('default'); ?>
+
+<!-- Localization detail -->
+<h2><?= $localization->name; ?></h2>
+<div id='description'><?= $localization->description; ?></div>
+<div id='address'><?= $localization->address; ?></div>
+<div id='email'><?= $localization->email; ?></div>
+<div id='date_from'><?= $localization->date_from; ?></div>
+<div id='date_to'><?= $localization->date_to; ?></div>
+<div id='lat'><?= $localization->lat; ?></div>
+<div id='lng'><?= $localization->lng; ?></div>
+
+<!-- @todo map -->
+
+
+<!-- CommentsForm -->
+<hr>
+<h3>Leave a comment</h3>
+ <?php
+ $commentFrom->setAttribute('action', $this->url('comment', array('action' => 'add')));
+
+ $commentFrom->prepare();
+
+ echo $this->form()->openTag($commentFrom);
+ echo $this->formRow($commentFrom->get('id')).'<br />';
+ echo $this->formRow($commentFrom->get('localization_id')).'<br />';
+ echo $this->formRow($commentFrom->get('text')).'<br />';
+ echo $this->formRow($commentFrom->get('email')).'<br />';
+ echo $this->formSubmit($commentFrom->get('submit')).'<br />';
+ echo $this->form()->closeTag();
+
+?>
+
+<!-- Comments to localization -->
+<?php if(count($comments)): ?>
+
+    <hr>
+    <h3>Comments:</h3>
+    <?php foreach($comments as $comment): ?>
+        <div id="comment_text"><?= $comment->text; ?></div>
+        <div id="comment_data"><?= $comment->created_time; ?></div>
+        <div id="comment_email_author"><?= $comment->email; ?></div>
+        <a href="<?php echo $this->url('comment', array('action' => 'delete', 'id' => $comment->id));
+        ?>">Delete</a>
+        <br/><br/>
+    <?php endforeach; ?>
+
+<?php endif; ?>
