@@ -15,7 +15,7 @@
 return array(
      'db' => array(
          'driver'         => 'Pdo',
-         'dsn'            => 'mysql:dbname=katwer_localization;host=localhost',
+         'dsn'            => 'mysql:dbname=katwer_localization;host=sql7.lh.pl',
          'driver_options' => array(
              PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
          ),
